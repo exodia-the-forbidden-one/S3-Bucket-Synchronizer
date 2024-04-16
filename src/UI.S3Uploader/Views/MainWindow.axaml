@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Uploader_UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        x:Class="Uploader_UI.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Uploader_UI"
+        Width="700"
+        Height="600">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    <StackPanel Orientation="Vertical">
+        <Button Name="btnShowManageCredentials"
+                Content="Manage AWS Credentials"
+                Command="{Binding OnManageCredentialsButtonClicked}"
+                Margin="20 30 0 20">
+        </Button>
+        <DataGrid Margin="20" ItemsSource="{Binding Configurations}"
+                  IsReadOnly="True"
+                  Name="dgConfigurations"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="All"
+                  BorderThickness="1" BorderBrush="Gray"
+                  Height="250"
+                  VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tag" Binding="{Binding Tag}" />
+                <DataGridTextColumn Header="Folder" Binding="{Binding FolderPath}" />
+                <DataGridTextColumn Header="AWS Region" Binding="{Binding AwsSettings.Region}" />
+                <DataGridTextColumn Header="S3 Bucket Name" Binding="{Binding AwsSettings.BucketName}" />
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Command="{Binding OnDeleteRow}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+        <Grid ColumnDefinitions="*,*" Margin="20">
+            <Button Name="btnAddFolder" Grid.Column="0"
+                    Content="Add Folder"
+                    Command="{Binding OnAddConfigurationButtonClicked}">
+            </Button>
+            <Button Name="btnSaveChanges" Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Foreground="Black"
+                    BorderBrush="Green"
+                    Background="LimeGreen"
+                    FontWeight="Bold"
+                    BorderThickness="3"
+                    IsEnabled="{Binding IsButtonEnabled}"
+                    Content="Kaydet">
+                <Button.Command>
+                    <Binding Path="SaveChangesCommand" />
+                </Button.Command>
+            </Button>
+        </Grid>
+        <Button Name="BtnServiceStatus"
+                Margin="20 0"
+                Content="Service Stopped"
+                Foreground="DarkRed"
+                VerticalAlignment="Bottom"
+                Background="rgba(255,0,0,0.2)">
+        </Button>
+    </StackPanel>
+
+</Window>

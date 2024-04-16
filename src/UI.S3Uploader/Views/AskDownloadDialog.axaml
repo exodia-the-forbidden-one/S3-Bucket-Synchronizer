@@ -1,0 +1,37 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Uploader_UI.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="160"
+        x:Class="Uploader_UI.Views.AskDownloadDialog"
+        x:DataType="viewModels:AskDownloadDialogViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Service Installing..."
+        Width="350"
+        Height="160">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<viewModels:AskDownloadDialogViewModel />
+	</Design.DataContext>
+
+	<StackPanel>
+		<Grid Margin="15 30"
+              VerticalAlignment="Center">
+			<TextBlock
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap">
+				Service Installing...
+			</TextBlock>
+		</Grid>
+        <ProgressBar 
+			Name="PbInstallService"
+			Margin="10 10" 
+            Height="20"
+            Minimum="0" 
+            Maximum="100" 
+            ShowProgressText="True"/>
+	</StackPanel>
+</Window>

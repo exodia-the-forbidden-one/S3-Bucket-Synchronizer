@@ -1,0 +1,35 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Uploader_UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
+        x:Class="Uploader_UI.Views.AddConfigurationForm"
+        x:DataType="vm:AddConfigurationFormViewModel"
+        Title="AddConfigurationForm"
+        Width="450"
+        Height="450">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:AddConfigurationFormViewModel />
+    </Design.DataContext>
+
+    <StackPanel Margin="20">
+        <TextBlock Margin="0 5">Tag:</TextBlock>
+        <TextBox Name="tbTag" Watermark="Tag" />
+        <TextBlock Margin="0 5">Folder Path:</TextBlock>
+        <TextBox Name="tbFolderPath" Watermark="/" GotFocus="ShowFolderDialogAsync" />
+        <TextBlock Margin="0 5">AWS S3 Bucket:</TextBlock>
+        <ComboBox Name="cbRegion" SelectedIndex="0" MaxDropDownHeight="200" Width="200" Margin="0 2">
+        </ComboBox>
+        <TextBlock Name="tbAddConfigurationFormError" />
+        <Button Name="btnAddConfiguration"
+                Margin="0 20"
+                Command="{Binding AddConfigurationCommand}"
+                Content="Add Configuration"
+                Foreground="White"
+                Background="rgb(0, 123, 255) ">
+        </Button>
+    </StackPanel>
+</Window>
