@@ -4,16 +4,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Uploader_UI.ViewModels"
         mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="160"
-        x:Class="Uploader_UI.Views.AskDownloadDialog"
-        x:DataType="viewModels:AskDownloadDialogViewModel"
+        x:Class="Uploader_UI.Views.InstallServiceWindow"
+        x:DataType="viewModels:InstallServiceWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Service Installing..."
-        Width="350"
-        Height="160">
+        Width="550"
+        Height="170">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<viewModels:AskDownloadDialogViewModel />
+		<viewModels:InstallServiceWindowViewModel />
 	</Design.DataContext>
 
 	<StackPanel>

@@ -2,19 +2,20 @@
 using System.Security.Cryptography;
 using System.Text;
 using System;
+using System.Management;
 
 namespace Uploader_UI.Helpers
 {
     internal class EncryptionHelper
     {
-        public static string Encrypt(string text, string key)
+        public static string Encrypt(string text)
         {
             byte[] iv = new byte[16];
             byte[] array;
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.Key = Encoding.UTF8.GetBytes(GetHwid());
                 aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -34,14 +35,14 @@ namespace Uploader_UI.Helpers
             return Convert.ToBase64String(array);
         }
 
-        public static string Decrypt(string text, string key)
+        public static string Decrypt(string text)
         {
             byte[] iv = new byte[16];
             byte[] buffer = Convert.FromBase64String(text);
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.Key = Encoding.UTF8.GetBytes(GetHwid());
                 aes.IV = iv;
 
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
@@ -57,6 +58,22 @@ namespace Uploader_UI.Helpers
                     }
                 }
             }
+        }
+
+        private static string GetHwid()
+        {
+            string hwid = string.Empty;
+            ManagementClass mc = new("Win32_ComputerSystemProduct");
+            using (ManagementObjectCollection moc = mc.GetInstances())
+            {
+                foreach (var mo in moc)
+                {
+                    hwid = (string)mo.Properties["UUID"].Value;
+                    break;
+                }
+            }
+
+            return hwid.Replace("-", "");
         }
     }
 }

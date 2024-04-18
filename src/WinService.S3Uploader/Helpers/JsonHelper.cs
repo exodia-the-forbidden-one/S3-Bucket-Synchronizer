@@ -12,10 +12,10 @@ namespace S3Uploader.Helpers
             try
             {
                 string json = File.ReadAllText(configPath);
-                var decrypted = EncryptionHelper.Decrypt(json, "1234567891234567");
+                var decrypted = EncryptionHelper.Decrypt(json);
                 var cfg = JsonSerializer.Deserialize<List<Configuration>>(decrypted);
 
-                return cfg ?? throw new ArgumentNullException(nameof(Configuration), @" Configuration file is empty");
+                return cfg ?? throw new ArgumentNullException(nameof(Configuration), @"Configuration file is empty");
             }
             catch (Exception e)
             {

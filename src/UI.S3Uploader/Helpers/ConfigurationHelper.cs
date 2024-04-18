@@ -26,7 +26,7 @@ public class ConfigurationHelper
                 File.Create(ConfigPath).Close();
             }
 
-            var encrypted = EncryptionHelper.Encrypt(content, "1234567891234567");
+            var encrypted = EncryptionHelper.Encrypt(content);
             File.WriteAllText(ConfigPath, encrypted);
             return true;
         }
@@ -43,7 +43,7 @@ public class ConfigurationHelper
             if (File.Exists(ConfigPath))
             {
                 string content = File.ReadAllText(ConfigPath);
-                var decrypted = EncryptionHelper.Decrypt(content, "1234567891234567");
+                var decrypted = EncryptionHelper.Decrypt(content);
                 return JsonSerializer.Deserialize<T>(decrypted);
             }
             return new T();

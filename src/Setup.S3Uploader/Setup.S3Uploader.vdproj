@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:Setup.S3Uploader"
+"ProjectName" = "8:S3Uploader"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -59,7 +59,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup.S3Uploader.msi"
+        "OutputFilename" = "8:Release\\S3Uploader.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -137,7 +137,7 @@
             "{1525181F-901A-416C-8A58-119130FE478E}:_F3EB1195E1044666A5C4619B5F396C25"
             {
             "Name" = "8:#1919"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:ProgramMenuFolder"
@@ -148,7 +148,7 @@
             "{1525181F-901A-416C-8A58-119130FE478E}:_F98F79E6830B4CA28CC5780717986375"
             {
             "Name" = "8:#1916"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:DesktopFolder"
@@ -173,7 +173,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup.S3Uploader"
         "ProductCode" = "8:{9A0B7F78-67CC-4811-8C87-A7E199A55371}"
-        "PackageCode" = "8:{BF9B9357-DA7B-43A7-A577-15C8CD7C9DF6}"
+        "PackageCode" = "8:{452A8911-28E5-412F-B396-FDDFD5EEC6C0}"
         "UpgradeCode" = "8:{9D62A337-CF37-420D-90C0-F1AFA378FB06}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -293,6 +293,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BB4345A613B24F0E951F1796107D3F3A"
+            {
+            "Name" = "8:S3Uploader"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C9604E08DFEE48BDBEE437FEF7322B69"
+            "Folder" = "8:_F98F79E6830B4CA28CC5780717986375"
+            "WorkingFolder" = "8:_87A8224782714062BD7C311494CC6DAC"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D6B082EC3ED546A788435F8E15FF3DC4"
+            {
+            "Name" = "8:S3Uploader"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C9604E08DFEE48BDBEE437FEF7322B69"
+            "Folder" = "8:_F3EB1195E1044666A5C4619B5F396C25"
+            "WorkingFolder" = "8:_87A8224782714062BD7C311494CC6DAC"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -694,7 +722,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C9604E08DFEE48BDBEE437FEF7322B69"
             {
-            "SourcePath" = "8:..\\UI.S3Uploader\\obj\\Debug\\net8.0\\apphost.exe"
+            "SourcePath" = "8:..\\UI.S3Uploader\\obj\\Release\\net8.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_87A8224782714062BD7C311494CC6DAC"

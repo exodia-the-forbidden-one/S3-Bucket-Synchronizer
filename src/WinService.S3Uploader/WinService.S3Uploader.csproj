@@ -131,6 +131,7 @@
     <Compile Include="Helpers\ErrorHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Initial.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

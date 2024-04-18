@@ -27,7 +27,7 @@ public partial class App : Application
                 }
                 catch (ArgumentException)
                 {
-                    desktop.MainWindow = new AskDownloadDialog();
+                    desktop.MainWindow = new InstallServiceWindow();
                 }
             }
             else

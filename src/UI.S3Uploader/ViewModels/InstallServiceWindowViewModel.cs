@@ -8,15 +8,15 @@ using Uploader_UI.Helpers;
 
 namespace Uploader_UI.ViewModels;
 
-public class AskDownloadDialogViewModel : ViewModelBase
+public class InstallServiceWindowViewModel : ViewModelBase
 {
-    private readonly AskDownloadDialog _askDownloadDialog;
+    private readonly InstallServiceWindow _installServiceWindow;
     private readonly string _zipPath;
     private readonly string _extractPath;
 
-    public AskDownloadDialogViewModel(AskDownloadDialog askDownloadDialog)
+    public InstallServiceWindowViewModel(InstallServiceWindow askDownloadDialog)
     {
-        _askDownloadDialog = askDownloadDialog;
+        _installServiceWindow = askDownloadDialog;
         _zipPath = Path.Combine(Directory.GetCurrentDirectory(), "WinService.zip");
         _extractPath = Path.Combine(Directory.GetCurrentDirectory(), "WinService");
         OnDownloadCommand();
@@ -28,7 +28,7 @@ public class AskDownloadDialogViewModel : ViewModelBase
 
         client.DownloadProgressChanged += (sender, e) =>
         {
-            _askDownloadDialog.PbInstallService.Value = e.ProgressPercentage;
+            _installServiceWindow.PbInstallService.Value = e.ProgressPercentage;
         };
 
         client.DownloadFileCompleted += (sender, e) =>
@@ -39,7 +39,7 @@ public class AskDownloadDialogViewModel : ViewModelBase
 
             string installCommand = $"sc create S3UploaderService binPath= \"{Path.Combine(_extractPath, "S3Uploader.exe")}\" start= auto";
 
-            ProcessStartInfo psi = new ProcessStartInfo
+            var psi = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
                 Arguments = $"/c {installCommand}",
@@ -49,7 +49,7 @@ public class AskDownloadDialogViewModel : ViewModelBase
                 RedirectStandardOutput = true
             };
 
-            Process process = new Process { StartInfo = psi };
+            var process = new Process { StartInfo = psi };
 
             process.Start();
 
@@ -59,10 +59,10 @@ public class AskDownloadDialogViewModel : ViewModelBase
             WindowsServiceHelper.StartService("S3UploaderService");
             MainWindow mainWindow = new();
             mainWindow.Show();
-            _askDownloadDialog.Close();
+            _installServiceWindow.Close();
         };
 
         client.DownloadFileAsync(
-            new Uri("https://github.com/exodia-the-forbidden-one/S3-Uploader/releases/download/WinService/WindowsService.zip"), _zipPath);
+            new Uri("https://github.com/exodia-the-forbidden-one/S3-File-Synchronizer/releases/download/WinService/WinService.zip"), _zipPath);
     }
 }

@@ -3,13 +3,13 @@ using Uploader_UI.ViewModels;
 
 namespace Uploader_UI.Views;
 
-public partial class AskDownloadDialog : Window
+public partial class InstallServiceWindow : Window
 {
-    public AskDownloadDialog()
+    public InstallServiceWindow()
     {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         SizeToContent = SizeToContent.Width;
-        DataContext = new AskDownloadDialogViewModel(this);
+        DataContext = new InstallServiceWindowViewModel(this);
     }
 }

@@ -3,13 +3,13 @@
         xmlns:vm="using:Uploader_UI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="440"
         x:Class="Uploader_UI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/bucket-icon.ico"
         Title="Uploader_UI"
         Width="700"
-        Height="600">
+        Height="440">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -57,7 +57,7 @@
                     FontWeight="Bold"
                     BorderThickness="3"
                     IsEnabled="{Binding IsButtonEnabled}"
-                    Content="Kaydet">
+                    Content="Save">
                 <Button.Command>
                     <Binding Path="SaveChangesCommand" />
                 </Button.Command>

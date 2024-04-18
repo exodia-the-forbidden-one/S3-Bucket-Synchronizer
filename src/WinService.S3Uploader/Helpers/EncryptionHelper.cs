@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System;
+using System.Management;
 
 namespace S3Uploader.Helpers
 {
@@ -34,21 +35,21 @@ namespace S3Uploader.Helpers
             return Convert.ToBase64String(array);
         }
 
-        public static string Decrypt(string text, string key)
+        public static string Decrypt(string text)
         {
             byte[] iv = new byte[16];
             byte[] buffer = Convert.FromBase64String(text);
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.Key = Encoding.UTF8.GetBytes(GetHwid());
                 aes.IV = iv;
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                ICryptoTransform transform = aes.CreateDecryptor(aes.Key, aes.IV);
 
                 using (MemoryStream ms = new MemoryStream(buffer))
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    using (CryptoStream cs = new CryptoStream(ms, transform, CryptoStreamMode.Read))
                     {
                         using (StreamReader reader = new StreamReader(cs))
                         {
@@ -57,6 +58,21 @@ namespace S3Uploader.Helpers
                     }
                 }
             }
+        }
+
+        private static string GetHwid()
+        {
+            string hwid = string.Empty;
+            ManagementClass mc = new ManagementClass("Win32_ComputerSystemProduct");
+            ManagementObjectCollection moc = mc.GetInstances();
+
+            foreach (ManagementObject mo in moc)
+            {
+                hwid = (string)mo.Properties["UUID"].Value;
+                break;
+            }
+
+            return hwid.Replace("-", "");
         }
     }
 }

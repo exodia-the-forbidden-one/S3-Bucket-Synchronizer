@@ -10,7 +10,6 @@ public partial class AddConfigurationForm : Window
     {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        SizeToContent = SizeToContent.Width;
         DataContext = new AddConfigurationFormViewModel(mainWindowViewModel, this);
     }
 

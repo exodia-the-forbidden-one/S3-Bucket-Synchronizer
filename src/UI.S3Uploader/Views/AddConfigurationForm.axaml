@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
         x:Class="Uploader_UI.Views.AddConfigurationForm"
         x:DataType="vm:AddConfigurationFormViewModel"
-        Title="AddConfigurationForm"
+        Title="Add Credentials"
         Width="450"
         Height="450">
     <Design.DataContext>

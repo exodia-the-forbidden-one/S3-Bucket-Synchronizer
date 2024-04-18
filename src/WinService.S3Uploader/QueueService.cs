@@ -13,7 +13,7 @@ namespace S3Uploader
     {
 
         private static readonly Lazy<QueueService> instance = new Lazy<QueueService>(() => new QueueService());
-        public readonly Channel<FileObject> _queue;
+        public readonly Channel<FileObject> Queue;
         private readonly LogHelper _logHelper;
 
         public static QueueService Instance => instance.Value;
@@ -25,15 +25,15 @@ namespace S3Uploader
                 FullMode = BoundedChannelFullMode.Wait
             };
             _logHelper = LogHelper.Instance;
-            _queue = Channel.CreateBounded<FileObject>(options);
+            Queue = Channel.CreateBounded<FileObject>(options);
         }
 
         public async ValueTask AddAsync(FileObject fileObj)
         {
             try
             {
-                await _queue.Writer.WriteAsync(fileObj);
-                _logHelper.Information("Dosya kuyruğa eklendi. Dosya yolu: " + fileObj.FilePath + " - S3 Bucket Name: " + fileObj.AwsSettings.BucketName);
+                await Queue.Writer.WriteAsync(fileObj);
+                _logHelper.Information("File added to queue. Path: " + fileObj.FilePath + " - S3 Bucket Name: " + fileObj.AwsSettings.BucketName);
             }
             catch (Exception e)
             {
@@ -43,7 +43,7 @@ namespace S3Uploader
 
         public async ValueTask<FileObject> GetAsync()
         {
-            var item = await _queue.Reader.ReadAsync();
+            var item = await Queue.Reader.ReadAsync();
             return item;
         }
 
@@ -56,13 +56,13 @@ namespace S3Uploader
 
                 if (!File.Exists(fileObj.FilePath))
                 {
-                    _logHelper.Warning($"file doesnt exist: {fileObj.FilePath}");
+                    _logHelper.Warning($"File doesn't exist: {fileObj.FilePath}");
                     continue;
                 }
 
                 Awssettings awsSettings = fileObj.AwsSettings;
                 FileInfo info = new FileInfo(fileObj.FilePath);
-                _logHelper.Information($"Yükleme işlemi başladı: {fileObj.FilePath} ({info.Length} bytes)");
+                _logHelper.Information($"Upload started: {fileObj.FilePath} ({info.Length} bytes)");
 
                 var credentials = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
                 var config = new AmazonS3Config
@@ -95,16 +95,29 @@ namespace S3Uploader
                     try
                     {
                         await transferUtility.UploadAsync(uploadRequest);
-                        _logHelper.Information("Yükleme başarıyla tamamlandı: " + fileObj.FilePath);
+                        _logHelper.Information("File uploaded successfully. File path: " + fileObj.FilePath);
                     }
                     catch (AmazonS3Exception ex)
                     {
-                        ErrorHelper.HandleError($"AWS sunucusu ile ilgili bir hata oluştur: '{ex.Message}'");
+                        ErrorHelper.HandleError($"AWS Server error: '{ex.Message}'");
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        _logHelper.Warning($"Dosyaya erişim yok. Tekrar kuyruğa ekleniyor...");
-                        await Task.Delay(3000);
+                        if (!NetworkHelper.IsNetworkAvailable())
+                        {
+                            _logHelper.Error("No network connection. Reconnecting...");
+
+                            while (!NetworkHelper.IsNetworkAvailable())
+                            {
+                                await Task.Delay(TimeSpan.FromSeconds(10));
+                            }
+                        }
+                        else
+                        {
+                            _logHelper.Warning($"No access to file. Adding to the queue again...");
+                            await Task.Delay(3000);
+                        }
+
 
                         if (File.Exists(fileObj.FilePath))
                         {
@@ -114,16 +127,16 @@ namespace S3Uploader
                             }
                             catch (Exception exception)
                             {
-                                ErrorHelper.HandleError("Kuyruğa ekleme sırasında bir hata oluştu: " + exception.Message);
+                                ErrorHelper.HandleError("An error occurred while adding to the queue: " + exception.Message);
                             }
                         }
                         else
                         {
-                            ErrorHelper.HandleError("Dosya silinmiş olabilir. Kuyruktan çıkarıldı: " + fileObj.FilePath);
+                            ErrorHelper.HandleError("The file may have been deleted. Removed from the queue: " + fileObj.FilePath);
                         }
                     }
 
-                    if (_queue.Reader.Count == 0)
+                    if (Queue.Reader.Count == 0)
                     {
                         Initial initial = new Initial
                         {

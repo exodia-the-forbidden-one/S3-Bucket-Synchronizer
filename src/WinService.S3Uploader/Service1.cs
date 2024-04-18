@@ -31,11 +31,11 @@ namespace S3Uploader
             else
             {
                 ErrorHelper.HandleError($" Configuration file not found! ({cfgPath})");
-                Task.Delay(TimeSpan.FromMinutes(60)).Wait();
+                Task.Delay(TimeSpan.FromSeconds(60)).Wait();
                 goto checkFile;
             }
 
-            logHelper.Information("Program başlatıldı.");
+            logHelper.Information("Service started!");
 
 
             foreach (var configuration in configurations)
@@ -86,7 +86,7 @@ namespace S3Uploader
                     }
                     catch (Exception exception)
                     {
-                        ErrorHelper.HandleError("Kuyruğa ekleme sırasında bir hata oluştu: " + exception.Message);
+                        ErrorHelper.HandleError("An error occured when adding to the queue: " + exception.Message);
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace S3Uploader
 
         protected override void OnStop()
         {
-            ErrorHelper.HandleError("Program Sonlandırıldı.");
+            ErrorHelper.HandleError("Service Stopped.");
         }
     }
 }
