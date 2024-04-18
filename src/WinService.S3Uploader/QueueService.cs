@@ -79,7 +79,7 @@ namespace S3Uploader
                     FilePath = fileObj.FilePath,
                     CannedACL = S3CannedACL.NoACL,
                     BucketName = awsSettings.BucketName,
-                    Key = relativeUri.ToString().Replace("\\", "/") // Replace backslashes with forward slashes
+                    Key = relativeUri.ToString().Replace("\\", "/")
                 };
 
                 //uploadRequest.UploadProgressEvent += (sender, e) =>
