@@ -63,6 +63,6 @@ public class InstallServiceWindowViewModel : ViewModelBase
         };
 
         client.DownloadFileAsync(
-            new Uri("https://github.com/exodia-the-forbidden-one/S3-File-Synchronizer/releases/download/WinService/WinService.zip"), _zipPath);
+            new Uri("https://github.com/exodia-the-forbidden-one/S3-Bucket-Synchronizer/releases/download/WinService/WinService.zip"), _zipPath);
     }
 }

@@ -21,22 +21,15 @@ namespace S3Uploader
 
             string cfgPath = Path.Combine(@"C:\S3FileUploader", "CFG");
 
-            List<Configuration> configurations;
+            List<Configuration> configurations = new List<Configuration>();
 
-            checkFile:
             if (File.Exists(cfgPath))
             {
                 configurations = JsonHelper.Deserialize(cfgPath);
             }
-            else
-            {
-                ErrorHelper.HandleError($" Configuration file not found! ({cfgPath})");
-                Task.Delay(TimeSpan.FromSeconds(60)).Wait();
-                goto checkFile;
-            }
+            ErrorHelper.HandleError($" Configuration file not found! ({cfgPath})");
 
             logHelper.Information("Service started!");
-
 
             foreach (var configuration in configurations)
             {
